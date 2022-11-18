@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
+#include <unistd.h>
 
 /**
  * get_user_input - retrieves input from a user in the terminal
@@ -16,7 +17,8 @@ char *get_user_input(void)
 
 	if (char_read == -1)
 	{
-		perror(error_text);
+		write(STDERR_FILENO, error_text, strlen(error_text));
+		exit(EXIT_FAILURE);
 	}
 	/*buf[strcspn(buf, "\n")] = 0;*/
 	buf[char_read - 1] = 0;

@@ -10,18 +10,24 @@
  * execute - execute commands entered by user
  * @user_input: commands entered by the user
  * @env: environmental variables
+ * @av: argument vector
  *
  * Return: nothing
  */
 
-void execute(char *user_input, char *env[])
+void execute(char *user_input, char *env[], char **av)
 {
-	const size_t ac = get_arg_count(user_input);
-	char *argv[ac];
-	int count = 0;
-	char *token = strtok(user_input, " ");
-	char *error_message = "./shell: No such file or directory\n";
+	size_t ac;
+	int count;
+	char **argv;
+	char *token;
+	char *custom_err_message;
+	pid_t id;
 
+	ac = get_arg_count(user_input);
+	argv = malloc(sizeof(char *) * ac);
+	count = 0;
+	token = strtok(user_input, " ");
 	while (token)
 	{
 		argv[count] = token;
@@ -29,19 +35,15 @@ void execute(char *user_input, char *env[])
 		token = strtok(NULL, " ");
 	}
 	argv[count] = NULL;
-	/*int num = 0;
-	while(argv[num])
-	{
-		printf("%s\n", argv[num]);
-		num++;
-	}*/
-	pid_t id = fork();
-
+	id = fork();
 	if (id == 0)
 	{
 		if (execve(argv[0], argv, env) == -1)
 		{
-			write(STDOUT_FILENO, error_message, strlen(error_message));
+			custom_err_message = malloc(sizeof(char) * strlen(av[0]) * strlen(": "));
+			strcpy(custom_err_message, av[0]);
+			perror(custom_err_message);
+			free(custom_err_message);
 		}
 	}
 	else
