@@ -49,5 +49,6 @@ void execute(char *user_input, char *env[], char **av)
 	else
 	{
 		wait(NULL);
+		free(argv);
 	}
 }
