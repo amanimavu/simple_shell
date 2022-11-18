@@ -10,26 +10,24 @@
  * Return: nothing
  */
 
-void looping_prompt(char *env[])
+void looping_prompt(char *env[], char **av)
 {
-	int mode = isatty(STDIN_FILENO);
-	char *prompt = "#cisfun$ ";
-	const char *err_text = "An error occurred when getting user input";
+	int mode;
+	char *prompt;
+	char *user_input;
 
+	mode = isatty(STDIN_FILENO);
+	prompt = "#cisfun$ ";
 	while (mode)
 	{
 		if (mode == 1)
 		{
 			write(STDIN_FILENO, prompt, strlen(prompt));
-			char *user_input = get_user_input();
+			user_input = get_user_input();
 
-			if (!user_input)
-			{
-				perror(err_text);
-				exit(EXIT_FAILURE);
-			}
-			execute(user_input, env);
+			execute(user_input, env, av);
 		}
+		free(user_input);
 	}
 }
 

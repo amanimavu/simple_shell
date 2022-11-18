@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 /**
  * get_arg_count - gets the count of user input in the shell
@@ -11,16 +12,19 @@
 
 size_t get_arg_count(char *user_input)
 {
-	char user_input_cpy[strlen(user_input)];
-	size_t count = 0;
+	char *user_input_cpy;
+	char *token;
+	size_t count;
 
+	user_input_cpy = malloc(sizeof(char) * strlen(user_input));
 	strcpy(user_input_cpy, user_input);
-	char *token = strtok(user_input_cpy, " ");
-
+	token = strtok(user_input_cpy, " ");
+	count = 0;
 	while (token)
 	{
 		count++;
 		token = strtok(NULL, " ");
 	}
+	free(user_input_cpy);
 	return (count);
 }
