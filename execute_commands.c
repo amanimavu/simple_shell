@@ -49,6 +49,7 @@ void execute(char *user_input, char *env[], char **av)
 	else
 	{
 		wait(NULL);
+		write(STDOUT_FILENO, "WWW", 3);
 		free(argv);
 	}
 }
