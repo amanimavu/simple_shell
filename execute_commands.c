@@ -6,8 +6,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-char **tokenize(char **);
-
 /**
  * execute - execute commands entered by user
  * @user_input: commands entered by the user
@@ -51,29 +49,3 @@ int execute(char **user_input, char *env[], char **av)
 	return (0);
 }
 
-/**
- * tokenize - turns user input into tokens of string
- * @input: user input read from terminal
- *
- * Return: nothing
- */
-
-char **tokenize(char **input)
-{
-	size_t ac;
-	char **token_list, *token;
-	int count;
-
-	ac = get_arg_count(*input);
-	token_list = malloc(sizeof(char *) * (ac + 1));
-	count = 0;
-	token = strtok(*input, " ");
-	while (token)
-	{
-		token_list[count] = token;
-		count++;
-		token = strtok(NULL, " ");
-	}
-	token_list[count] = NULL;
-	return (token_list);
-}
