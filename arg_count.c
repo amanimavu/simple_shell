@@ -16,7 +16,7 @@ size_t get_arg_count(char *user_input)
 	char *token;
 	size_t count;
 
-	user_input_cpy = malloc(sizeof(char) * strlen(user_input));
+	user_input_cpy = malloc(sizeof(char) * (strlen(user_input) + 1));
 	strcpy(user_input_cpy, user_input);
 	token = strtok(user_input_cpy, " ");
 	count = 0;

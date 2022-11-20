@@ -13,11 +13,15 @@ char *get_user_input(void)
 	char *buf = NULL;
 	size_t buf_size = 0;
 	const char *error_text = "getline failed";
-	int char_read = getline(&buf, &buf_size, stdin);
+	int bytes_written, char_read = getline(&buf, &buf_size, stdin);
 
 	if (char_read == -1)
 	{
-		write(STDERR_FILENO, error_text, strlen(error_text));
+		bytes_written = write(STDERR_FILENO, error_text, strlen(error_text) + 1);
+		if (bytes_written == -1)
+		{
+			perror("get_input: ");
+		}
 		exit(EXIT_FAILURE);
 	}
 	/*buf[strcspn(buf, "\n")] = 0;*/
