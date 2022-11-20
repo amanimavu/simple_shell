@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+char **tokenize(char **);
+
 /**
  * execute - execute commands entered by user
  * @user_input: commands entered by the user
@@ -17,37 +19,25 @@
 
 int execute(char **user_input, char *env[], char **av)
 {
-	size_t ac;
-	int count;
-	char **argv, *token, *custom_err_message;
+	char **argv, *custom_err;
 	pid_t id;
 
-	ac = get_arg_count(*user_input);
-	argv = malloc(sizeof(char *) * (ac + 1));
-	count = 0;
-	token = strtok(*user_input, " ");
-	while (token)
-	{
-		argv[count] = token;
-		count++;
-		token = strtok(NULL, " ");
-	}
+	argv = tokenize(user_input);
 	if (!strcmp(argv[0], "exit"))
 	{
 		free(argv);
 		return (1);
 	}
-	argv[count] = NULL;
 
 	id = fork();
 	if (id == 0)
 	{
 		if (execve(argv[0], argv, env) == -1)
 		{
-			custom_err_message = malloc(sizeof(char) * (strlen(av[0]) + strlen(": ") + 1));
-			strcpy(custom_err_message, av[0]);
-			perror(custom_err_message);
-			free(custom_err_message);
+			custom_err = malloc(sizeof(char) * (strlen(av[0]) + strlen(": ") + 1));
+			strcpy(custom_err, av[0]);
+			perror(custom_err);
+			free(custom_err);
 		}
 		free(*user_input);
 		free(argv);
@@ -59,4 +49,31 @@ int execute(char **user_input, char *env[], char **av)
 		free(argv);
 	}
 	return (0);
+}
+
+/**
+ * tokenize - turns user input into tokens of string
+ * @input: user input read from terminal
+ *
+ * Return: nothing
+ */
+
+char **tokenize(char **input)
+{
+	size_t ac;
+	char **token_list, *token;
+	int count;
+
+	ac = get_arg_count(*input);
+	token_list = malloc(sizeof(char *) * (ac + 1));
+	count = 0;
+	token = strtok(*input, " ");
+	while (token)
+	{
+		token_list[count] = token;
+		count++;
+		token = strtok(NULL, " ");
+	}
+	token_list[count] = NULL;
+	return (token_list);
 }
