@@ -8,7 +8,7 @@
  * main - entry point of program
  * @ac: argument count
  * @av: argument vector
- * @envp: envronment variables of the terinal
+ * @envp: envronment variables of the terminal
  *
  * Return: 0 implying success
  */
@@ -40,3 +40,4 @@ int main(__attribute__((unused)) int ac,
 
 	return (0);
 }
+

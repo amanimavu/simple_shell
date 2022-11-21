@@ -5,6 +5,7 @@
 
 /**
  * get_user_input - retrieves input from a user in the terminal
+ *
  * Return: void
  */
 
@@ -29,3 +30,4 @@ char *get_user_input(void)
 
 	return (buf);
 }
+

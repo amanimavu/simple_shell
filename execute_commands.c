@@ -20,10 +20,10 @@ int execute(char **user_input, char *env[], char **av)
 	char **argv, *custom_err;
 	pid_t id;
 
-	argv = tokenize(user_input);
+	argv = command_or_path(user_input);
 	if (!strcmp(argv[0], "exit"))
 	{
-		free(argv);
+		free_in_execute(user_input, argv);
 		return (1);
 	}
 
@@ -37,14 +37,13 @@ int execute(char **user_input, char *env[], char **av)
 			perror(custom_err);
 			free(custom_err);
 		}
-		free(*user_input);
-		free(argv);
+		free_in_execute(user_input, argv);
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		wait(NULL);
-		free(argv);
+		free_in_execute(user_input, argv);
 	}
 	return (0);
 }

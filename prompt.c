@@ -33,18 +33,10 @@ void looping_prompt(char *env[], char **av)
 		if (!strlen(user_input))
 		{
 			free(user_input);
-			user_input = NULL;
 			continue;
 		}
 		if (execute(&user_input, env, av))
 			toggle = 0;
-		free(user_input);
-		user_input = NULL;
 	}
 }
 
-/**
- * free_mem - frees memory allocated by malloc
- * @mem_alloc: memory allocated by malloc
- * Return: nothing
- */

@@ -28,3 +28,4 @@ size_t get_arg_count(char *user_input)
 	free(user_input_cpy);
 	return (count);
 }
+
