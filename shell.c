@@ -31,7 +31,6 @@ int main(__attribute__((unused)) int ac,
 		}
 		buf[strcspn(buf, "\n")] = 0;
 		execute(&buf, envp, av);
-		free(buf);
 	}
 	else
 	{
